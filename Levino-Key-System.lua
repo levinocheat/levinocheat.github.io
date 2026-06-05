@@ -28,7 +28,6 @@ KeySystemTopBar.Parent = KeySystemFrame
 
 local KeySystemTitle = Instance.new("TextLabel")
 KeySystemTitle.Size = UDim2.new(1, 0, 1, 0)
-KeySystemTitle.BackgroundTransparency = 1
 KeySystemTitle.Font = Enum.Font.Code
 KeySystemTitle.TextSize = 13
 KeySystemTitle.Text = "Levino Key System"
@@ -40,7 +39,6 @@ local KeySystemContent = Instance.new("Frame")
 KeySystemContent.Size = UDim2.new(1, 0, 0, 0)
 KeySystemContent.Position = UDim2.new(0, 0, 0, 28)
 KeySystemContent.AutomaticSize = Enum.AutomaticSize.Y
-KeySystemContent.BackgroundTransparency = 1
 KeySystemContent.Parent = KeySystemFrame
 
 local KeySystemLayout = Instance.new("UIListLayout")
@@ -57,12 +55,10 @@ KeySystemPadding.Parent = KeySystemContent
 
 local KeyTextboxFrame = Instance.new("Frame")
 KeyTextboxFrame.Size = UDim2.new(1, 0, 0, 36)
-KeyTextboxFrame.BackgroundTransparency = 1
 KeyTextboxFrame.Parent = KeySystemContent
 
 local KeyLabel = Instance.new("TextLabel")
 KeyLabel.Size = UDim2.new(1, 0, 0, 14)
-KeyLabel.BackgroundTransparency = 1
 KeyLabel.Font = Enum.Font.Code
 KeyLabel.TextSize = 13
 KeyLabel.Text = "Enter Key"
@@ -100,7 +96,6 @@ KeyInputPadding.Parent = KeyInputBox
 
 local CheckButtonFrame = Instance.new("Frame")
 CheckButtonFrame.Size = UDim2.new(1, 0, 0, 24)
-CheckButtonFrame.BackgroundTransparency = 1
 CheckButtonFrame.Parent = KeySystemContent
 
 local CheckButtonOuter = Instance.new("Frame")
@@ -129,7 +124,6 @@ CheckButtonPadding.Parent = CheckKeyButton
 
 local CopyButtonFrame = Instance.new("Frame")
 CopyButtonFrame.Size = UDim2.new(1, 0, 0, 24)
-CopyButtonFrame.BackgroundTransparency = 1
 CopyButtonFrame.Parent = KeySystemContent
 
 local CopyButtonOuter = Instance.new("Frame")
