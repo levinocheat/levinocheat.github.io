@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Levino Cheat - Get Key</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <style>
         * {
             margin: 0;
@@ -79,11 +81,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.3s ease;
-        }
-
-        .key-display.fade {
-            opacity: 0.3;
         }
 
         .loading {
@@ -153,9 +150,7 @@
 
         <div class="key-section">
             <div class="key-label">YOUR ACCESS KEY</div>
-            <div class="key-display" id="keyDisplay">
-                <span class="loading">Loading key...</span>
-            </div>
+            <div class="key-display" id="keyDisplay">Loading...</div>
         </div>
 
         <button class="button primary" id="copyBtn" disabled>Copy Key</button>
@@ -176,23 +171,18 @@
 
         async function loadKey() {
             try {
-                keyDisplay.classList.add('fade');
-                await new Promise(resolve => setTimeout(resolve, 300));
-                keyDisplay.innerHTML = '<span class="loading">Loading key...</span>';
-                copyBtn.disabled = true;
                 const response = await fetch(KEY_URL + '?t=' + Date.now());
                 if (!response.ok) throw new Error('Failed');
-                currentKey = (await response.text()).trim();
-                if (currentKey) {
+                const newKey = (await response.text()).trim();
+                if (newKey) {
+                    currentKey = newKey;
                     keyDisplay.textContent = currentKey;
-                    keyDisplay.classList.remove('fade');
                     copyBtn.disabled = false;
-                } else {
-                    throw new Error('Empty');
                 }
             } catch (error) {
-                keyDisplay.textContent = 'Error loading key';
-                keyDisplay.classList.remove('fade');
+                if (!currentKey) {
+                    keyDisplay.textContent = 'Error loading key';
+                }
             }
         }
 
