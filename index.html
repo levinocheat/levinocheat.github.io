@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Levino Cheat</title>
+    <title>Levino Flash</title>
     <style>
         * {
             margin: 0;
@@ -26,129 +26,367 @@
             background: rgba(20, 20, 20, 0.95);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 16px;
-            padding: 55px 45px;
-            max-width: 500px;
+            padding: 28px 32px;
+            max-width: 520px;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            height: 520px;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 16px;
+            flex-shrink: 0;
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 24px;
             color: #ffffff;
             font-weight: 600;
-            letter-spacing: 1.5px;
-            margin-bottom: 4px;
+            letter-spacing: 2px;
         }
 
         .sub {
             color: #888;
-            font-size: 12px;
-            letter-spacing: 2.5px;
+            font-size: 10px;
+            letter-spacing: 3px;
             text-transform: uppercase;
             font-weight: 500;
+            margin-top: 2px;
         }
 
-        .desc {
+        .chat-messages-wrapper {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+
+        .chat-messages {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 8px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+
+        .msg {
+            padding: 7px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            word-break: break-word;
+            max-width: 90%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            background: #c7b18f;
+            color: #0d0d0d;
+            border-bottom-right-radius: 3px;
+        }
+
+        .msg.ai {
+            align-self: flex-start;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            border: 1px solid #2a2a2a;
+            border-bottom-left-radius: 3px;
+        }
+
+        .msg .loader {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #444;
+            border-top-color: #c7b18f;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .empty-state {
+            color: #555;
+            text-align: center;
             font-size: 14px;
-            color: #b0b0b0;
-            line-height: 1.9;
-            margin: 22px 0 28px;
-            font-weight: 300;
-            letter-spacing: 0.2px;
-        }
-
-        .desc .highlight {
-            color: #c7b18f;
-            font-weight: 500;
-            text-shadow: 0 0 20px rgba(199, 177, 143, 0.15);
-        }
-
-        .btn {
+            user-select: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 100%;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+            padding-top: 12px;
+            flex-shrink: 0;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background: #0d0d0d;
+            color: #e0e0e0;
+            font-size: 13px;
+            outline: none;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+
+        .input-area input:focus {
+            border-color: #c7b18f;
+        }
+
+        .input-area input::placeholder {
+            color: #555;
+        }
+
+        .input-area button {
             background: #c7b18f;
             color: #0d0d0d;
             border: none;
-            padding: 17px;
-            font-size: 13px;
+            padding: 10px 20px;
+            font-size: 12px;
             font-weight: 600;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            letter-spacing: 1.5px;
             text-transform: uppercase;
+            letter-spacing: 1px;
             font-family: inherit;
+            white-space: nowrap;
         }
 
-        .btn:hover {
+        .input-area button:hover {
             background: #d9c5a8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(199, 177, 143, 0.15);
+            transform: translateY(-1px);
         }
 
-        .btn:active {
-            transform: scale(0.98) translateY(0);
+        .input-area button:active {
+            transform: scale(0.97);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
+        .input-area button:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
 
-        .ver {
-            font-size: 11px;
-            color: #555;
-            margin-top: 14px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-
         @media (max-width: 480px) {
             .container {
-                padding: 32px 22px;
+                padding: 18px 16px;
+                height: 450px;
             }
             h1 {
-                font-size: 26px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>LEVINO CHEAT</h1>
-        <div class="sub">Roblox Exploit</div>
-
-        <div class="desc">
-            <span class="highlight">Levino Cheat</span> is an external cheat for 
-            <span class="highlight">Roblox</span> that can be used in any game, with features like 
-            <span class="highlight">aimbot</span>, <span class="highlight">visual effects</span>, and much more. 
-            Make your gameplay more <span class="highlight">fun</span> — and stay 
-            <span class="highlight">undetected</span> with regular updates 
-            for the latest <span class="highlight">Roblox</span> version.
+        <div class="header">
+            <h1>LEVINO FLASH</h1>
+            <div class="sub">AI Assistant</div>
         </div>
 
-        <button class="btn" id="downloadBtn">Download</button>
-        <div class="ver">Updated 19.06.2026</div>
+        <div class="chat-messages-wrapper">
+            <div class="chat-messages" id="chatMessages">
+                <div class="empty-state">Ask me anything</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Type a message..." autofocus />
+            <button id="sendBtn">Send</button>
+        </div>
     </div>
 
     <script>
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            const original = this.innerHTML;
-            this.innerHTML = 'Downloading...';
-            this.disabled = true;
+        (function() {
+            const API_KEY = 'csk-hp4npdrd94y6v4v8c494mnx4vd6wh9hcmn8tpjr8xwrp64d6';
+            const API_URL = 'https://api.cerebras.ai/v1/chat/completions';
 
-            const link = document.createElement('a');
-            link.href = 'https://github.com/Levinorbx/Levino-Cheat/archive/refs/heads/main.zip';
-            link.download = 'Levino-Cheat.zip';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            const messagesContainer = document.getElementById('chatMessages');
+            const userInput = document.getElementById('userInput');
+            const sendBtn = document.getElementById('sendBtn');
 
-            setTimeout(() => {
-                this.innerHTML = original;
-                this.disabled = false;
-            }, 2000);
-        });
+            let isProcessing = false;
+            let chatHistory = [];
+
+            function addMessage(text, sender) {
+                const empty = messagesContainer.querySelector('.empty-state');
+                if (empty) empty.remove();
+
+                const div = document.createElement('div');
+                div.className = `msg ${sender}`;
+                div.textContent = text;
+                messagesContainer.appendChild(div);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            function addLoader() {
+                const empty = messagesContainer.querySelector('.empty-state');
+                if (empty) empty.remove();
+
+                const div = document.createElement('div');
+                div.className = 'msg ai';
+                div.id = 'loaderMsg';
+                div.innerHTML = '<span class="loader"></span> Thinking...';
+                messagesContainer.appendChild(div);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            function removeLoader() {
+                const loader = document.getElementById('loaderMsg');
+                if (loader) loader.remove();
+            }
+
+            async function sendToAI(userMessage) {
+                if (!userMessage.trim() || isProcessing) return;
+
+                addMessage(userMessage, 'user');
+                chatHistory.push({ role: 'user', content: userMessage });
+
+                userInput.value = '';
+                isProcessing = true;
+                sendBtn.disabled = true;
+
+                addLoader();
+
+                try {
+                    const history = chatHistory.slice(-10).map(msg => ({
+                        role: msg.role,
+                        content: msg.content
+                    }));
+
+                    const systemPrompt = `You are Levino Flash, a helpful AI assistant. Keep responses clear, concise, and use plain text only. No markdown, no code blocks, no formatting. Just simple plain text.`;
+
+                    const messages = [
+                        { role: 'system', content: systemPrompt },
+                        ...history
+                    ];
+
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-oss-120b',
+                            max_completion_tokens: 1024,
+                            temperature: 0.3,
+                            top_p: 1,
+                            stream: true,
+                            messages: messages
+                        })
+                    });
+
+                    removeLoader();
+
+                    if (!response.ok) {
+                        const err = await response.text();
+                        addMessage(`Error: ${err}`, 'ai');
+                        return;
+                    }
+
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder('utf-8');
+                    let full = '';
+                    let msgDiv = null;
+                    let buffer = '';
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+
+                        buffer += decoder.decode(value, { stream: true });
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop() || '';
+
+                        for (const line of lines) {
+                            if (line.startsWith('data: ')) {
+                                const data = line.slice(6).trim();
+                                if (data === '[DONE]') continue;
+                                try {
+                                    const parsed = JSON.parse(data);
+                                    const content = parsed.choices?.[0]?.delta?.content;
+                                    if (content) {
+                                        full += content;
+                                        if (!msgDiv) {
+                                            const empty = messagesContainer.querySelector('.empty-state');
+                                            if (empty) empty.remove();
+                                            msgDiv = document.createElement('div');
+                                            msgDiv.className = 'msg ai';
+                                            messagesContainer.appendChild(msgDiv);
+                                        }
+                                        msgDiv.textContent = full;
+                                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                                    }
+                                } catch (e) {}
+                            }
+                        }
+                    }
+
+                    if (full) {
+                        chatHistory.push({ role: 'assistant', content: full });
+                    }
+
+                } catch (error) {
+                    removeLoader();
+                    addMessage(`Error: ${error.message}`, 'ai');
+                }
+
+                isProcessing = false;
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+
+            sendBtn.addEventListener('click', () => sendToAI(userInput.value));
+            userInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendToAI(userInput.value);
+                }
+            });
+
+            userInput.focus();
+            console.log('Levino Flash ready');
+        })();
     </script>
 </body>
 </html>
